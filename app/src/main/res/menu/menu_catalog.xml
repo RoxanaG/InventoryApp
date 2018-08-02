@@ -6,11 +6,11 @@
 
     <item
         android:id="@+id/insert_dummy_data"
-        android:title="insert_dummy_data"
+        android:title="@string/insert_dummy"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/delete_all_entries"
-        android:title="delete_all_entries"
+        android:title="@string/delete_all"
         app:showAsAction="never" />
 </menu>

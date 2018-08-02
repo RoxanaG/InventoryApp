@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">InventoryApp</string>
+    <string name="nothing_saved">Nothing to save</string>
+    <string name="no_product_name">Please input product name</string>
+    <string name="no_price">Please input price</string>
+    <string name="no_quantity">Please input quantity</string>
+    <string name="no_phone">Please input supplier phone</string>
+    <string name="product_hint">Product name</string>
+    <string name="product_text">Product name</string>
+    <string name="price_text">Price</string>
+    <string name="price_hint">Price</string>
+    <string name="currency">EUR</string>
+    <string name="quantity_text">Quantity</string>
+    <string name="quantity_hint">Quantity</string>
+    <string name="supplier_text">Name of supplier</string>
+    <string name="supplier_hint">Supplier name</string>
+    <string name="phone_text">Supplier phone</string>
+    <string name="phone_hint">max.9 caract.</string>
+    <string name="insert_dummy">Insert dummy data</string>
+    <string name="delete_all">Delete all entry</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
 </resources>
