@@ -15,11 +15,13 @@ import android.widget.TextView;
 import com.example.grasu.inventoryapp.data.BooksContract;
 import com.example.grasu.inventoryapp.data.BooksDbHelper;
 
-
 public class CatalogActivity extends AppCompatActivity {
+
     private BooksDbHelper dbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catalog);
 
@@ -33,11 +35,14 @@ public class CatalogActivity extends AppCompatActivity {
         });
         dbHelper = new BooksDbHelper(this);
     }
+
     @Override
     protected void onStart() {
+
         super.onStart();
         displayDatabaseInfo();
     }
+
     private void displayDatabaseInfo() {
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -46,10 +51,9 @@ public class CatalogActivity extends AppCompatActivity {
                 BooksContract.BooksEntry._ID,
                 BooksContract.BooksEntry.COLUMN_BOOKS_PRODUCT,
                 BooksContract.BooksEntry.COLUMN_BOOKS_PRICE,
-               BooksContract.BooksEntry.COLUMN_BOOKS_QUANTITY,
+                BooksContract.BooksEntry.COLUMN_BOOKS_QUANTITY,
                 BooksContract.BooksEntry.COLUMN_BOOKS_SUPPLIER,
-                BooksContract.BooksEntry.COLUMN_BOOKS_PHONE };
-
+                BooksContract.BooksEntry.COLUMN_BOOKS_PHONE};
 
         Cursor cursor = db.query(
                 BooksContract.BooksEntry.TABLE_NAME,
@@ -63,7 +67,6 @@ public class CatalogActivity extends AppCompatActivity {
         TextView displayView = findViewById(R.id.text_book);
 
         try {
-
             displayView.setText("The books table contains " + cursor.getCount() + " books.\n\n");
             displayView.append(BooksContract.BooksEntry._ID + " - " +
                     BooksContract.BooksEntry.COLUMN_BOOKS_PRODUCT + " - " +
@@ -71,7 +74,6 @@ public class CatalogActivity extends AppCompatActivity {
                     BooksContract.BooksEntry.COLUMN_BOOKS_QUANTITY + " - " +
                     BooksContract.BooksEntry.COLUMN_BOOKS_SUPPLIER + " - " +
                     BooksContract.BooksEntry.COLUMN_BOOKS_PHONE + "\n");
-
 
             int idColumnIndex = cursor.getColumnIndex(BooksContract.BooksEntry._ID);
             int productColumnIndex = cursor.getColumnIndex(BooksContract.BooksEntry.COLUMN_BOOKS_PRODUCT);
@@ -81,7 +83,6 @@ public class CatalogActivity extends AppCompatActivity {
             int phoneColumnIndex = cursor.getColumnIndex(BooksContract.BooksEntry.COLUMN_BOOKS_PHONE);
 
             while (cursor.moveToNext()) {
-
                 int currentID = cursor.getInt(idColumnIndex);
                 String currentProduct = cursor.getString(productColumnIndex);
                 Double currentPrice = cursor.getDouble(priceColumnIndex);
@@ -125,14 +126,11 @@ public class CatalogActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-
             case R.id.insert_dummy_data:
                 insertBooks();
                 displayDatabaseInfo();
                 return true;
-
             case R.id.delete_all_entries:
-
                 return true;
         }
         return super.onOptionsItemSelected(item);
