@@ -21,5 +21,21 @@
     <string name="save">Save</string>
     <string name="delete">Delete</string>
     <string name="editor_insert_book_failed">Error with saving book</string>
-    <string name="editor_insert_book_successfull">Book saved with row id: </string>
+    <string name="editor_insert_book_successfull">Book saved </string>
+    <string name="empty_view_title_text">There are no products</string>
+    <string name="empty_view_subtitle_text">Please insert a new book</string>
+    <string name="editor_add_books">Add a book</string>
+    <string name="editor_edit_books">Edit book</string>
+    <string name="editor_update_books_failed">Update fail</string>
+    <string name="editor_update_books_successful">Update successful</string>
+    <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
+    <string name="discard">Discard</string>
+    <string name="keep_editing">Keep Editing</string>
+    <string name="editor_delete_books_successful">Book deleted</string>
+    <string name="editor_delete_books_failed">Error with deleting book</string>
+    <string name="delete_dialog_msg">Are you sure you want to delete this book?</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete_all_dialog_msg">Are you sure you want to delete all books?</string>
+
+
 </resources>

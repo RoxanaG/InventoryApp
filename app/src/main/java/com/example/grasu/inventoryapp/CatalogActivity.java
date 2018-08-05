@@ -1,7 +1,13 @@
 package com.example.grasu.inventoryapp;
 
+import android.app.AlertDialog;
+import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 
 import android.net.Uri;
@@ -11,13 +17,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.grasu.inventoryapp.adapters.BooksCursorAdapter;
 import com.example.grasu.inventoryapp.data.BooksContract;
 
 
-public class CatalogActivity extends AppCompatActivity {
-
+public class CatalogActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+private static final int BOOKS_LOADER = 0;
+BooksCursorAdapter cursorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,73 +40,29 @@ public class CatalogActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
                 startActivity(intent);
             }
         });
+        ListView booksListView = (ListView) findViewById(R.id.list);
 
-    }
+        // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
+        View emptyView = findViewById(R.id.empty_view);
+        booksListView.setEmptyView(emptyView);
 
-    @Override
-    protected void onStart() {
-
-        super.onStart();
-        displayDatabaseInfo();
-    }
-
-    private void displayDatabaseInfo() {
-
-        String[] projection = {
-                BooksContract.BooksEntry._ID,
-                BooksContract.BooksEntry.COLUMN_BOOKS_PRODUCT,
-                BooksContract.BooksEntry.COLUMN_BOOKS_PRICE,
-                BooksContract.BooksEntry.COLUMN_BOOKS_QUANTITY,
-                BooksContract.BooksEntry.COLUMN_BOOKS_SUPPLIER,
-                BooksContract.BooksEntry.COLUMN_BOOKS_PHONE};
-
-
-        Cursor cursor = getContentResolver().query(
-                BooksContract.BooksEntry.CONTENT_URI,
-                projection,
-                null,
-                null,
-                null);
-        TextView displayView = findViewById(R.id.text_book);
-
-        try {
-            displayView.setText("The books table contains " + cursor.getCount() + " books.\n\n");
-            displayView.append(BooksContract.BooksEntry._ID + " - " +
-                    BooksContract.BooksEntry.COLUMN_BOOKS_PRODUCT + " - " +
-                    BooksContract.BooksEntry.COLUMN_BOOKS_PRICE + " - " +
-                    BooksContract.BooksEntry.COLUMN_BOOKS_QUANTITY + " - " +
-                    BooksContract.BooksEntry.COLUMN_BOOKS_SUPPLIER + " - " +
-                    BooksContract.BooksEntry.COLUMN_BOOKS_PHONE + "\n");
-
-            int idColumnIndex = cursor.getColumnIndex(BooksContract.BooksEntry._ID);
-            int productColumnIndex = cursor.getColumnIndex(BooksContract.BooksEntry.COLUMN_BOOKS_PRODUCT);
-            int priceColumnIndex = cursor.getColumnIndex(BooksContract.BooksEntry.COLUMN_BOOKS_PRICE);
-            int quantityColumnIndex = cursor.getColumnIndex(BooksContract.BooksEntry.COLUMN_BOOKS_QUANTITY);
-            int supplierColumnIndex = cursor.getColumnIndex(BooksContract.BooksEntry.COLUMN_BOOKS_SUPPLIER);
-            int phoneColumnIndex = cursor.getColumnIndex(BooksContract.BooksEntry.COLUMN_BOOKS_PHONE);
-
-            while (cursor.moveToNext()) {
-                int currentID = cursor.getInt(idColumnIndex);
-                String currentProduct = cursor.getString(productColumnIndex);
-                Double currentPrice = cursor.getDouble(priceColumnIndex);
-                int currentQuantity = cursor.getInt(quantityColumnIndex);
-                String currentSupplier = cursor.getString(supplierColumnIndex);
-                int currentPhone = cursor.getInt(phoneColumnIndex);
-
-                displayView.append(("\n" + currentID + " - " +
-                        currentProduct + " - " +
-                        currentPrice + " - " +
-                        currentQuantity + " - " +
-                        currentSupplier + " - " +
-                        currentPhone));
+        cursorAdapter = new BooksCursorAdapter(this,null);
+        booksListView.setAdapter(cursorAdapter);
+        booksListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+Intent intent = new Intent(CatalogActivity.this,EditorActivity.class);
+Uri currentBooksUri = ContentUris.withAppendedId(BooksContract.BooksEntry.CONTENT_URI,id);
+intent.setData(currentBooksUri);
+startActivity(intent);
             }
-        } finally {
-            cursor.close();
-        }
+        });
+        getLoaderManager().initLoader(BOOKS_LOADER,null,this);
     }
 
     private void insertBooks() {
@@ -108,6 +75,10 @@ public class CatalogActivity extends AppCompatActivity {
         values.put(BooksContract.BooksEntry.COLUMN_BOOKS_PHONE, 727213658);
 
         Uri newUri = getContentResolver().insert(BooksContract.BooksEntry.CONTENT_URI, values);
+    }
+    private void deleteAllBooks() {
+        int rowsDeleted = getContentResolver().delete(BooksContract.BooksEntry.CONTENT_URI, null, null);
+
     }
 
     @Override
@@ -122,13 +93,64 @@ public class CatalogActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.insert_dummy_data:
                 insertBooks();
-                displayDatabaseInfo();
                 return true;
             case R.id.delete_all_entries:
+                showDeleteConfirmationDialog();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String[] projection = {
+                BooksContract.BooksEntry._ID,
+                BooksContract.BooksEntry.COLUMN_BOOKS_PRODUCT,
+                BooksContract.BooksEntry.COLUMN_BOOKS_PRICE
+        };
+        return new CursorLoader(this,
+                BooksContract.BooksEntry.CONTENT_URI,
+                projection,
+                null,
+                null,
+                null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+cursorAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+cursorAdapter.swapCursor(null);
+    }
+    private void showDeleteConfirmationDialog() {
+        // Create an AlertDialog.Builder and set the message, and click listeners
+        // for the postivie and negative buttons on the dialog.
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.delete_all_dialog_msg);
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Delete" button, so delete the pet.
+                deleteAllBooks();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Cancel" button, so dismiss the dialog
+                // and continue editing the pet.
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
 }
 
 

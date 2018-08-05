@@ -18,7 +18,6 @@
         </activity>
         <activity
             android:name=".EditorActivity"
-            android:label="Add book"
             android:theme="@style/EditorTheme"
             android:parentActivityName=".CatalogActivity" >
             <!-- Parent activity meta-data to support 4.0 and lower -->
