@@ -3,7 +3,8 @@ package com.example.grasu.inventoryapp;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -13,11 +14,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.grasu.inventoryapp.data.BooksContract;
-import com.example.grasu.inventoryapp.data.BooksDbHelper;
+
 
 public class CatalogActivity extends AppCompatActivity {
 
-    private BooksDbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,7 @@ public class CatalogActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        dbHelper = new BooksDbHelper(this);
+
     }
 
     @Override
@@ -45,8 +45,6 @@ public class CatalogActivity extends AppCompatActivity {
 
     private void displayDatabaseInfo() {
 
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-
         String[] projection = {
                 BooksContract.BooksEntry._ID,
                 BooksContract.BooksEntry.COLUMN_BOOKS_PRODUCT,
@@ -55,15 +53,13 @@ public class CatalogActivity extends AppCompatActivity {
                 BooksContract.BooksEntry.COLUMN_BOOKS_SUPPLIER,
                 BooksContract.BooksEntry.COLUMN_BOOKS_PHONE};
 
-        Cursor cursor = db.query(
-                BooksContract.BooksEntry.TABLE_NAME,
+
+        Cursor cursor = getContentResolver().query(
+                BooksContract.BooksEntry.CONTENT_URI,
                 projection,
                 null,
                 null,
-                null,
-                null,
                 null);
-
         TextView displayView = findViewById(R.id.text_book);
 
         try {
@@ -104,8 +100,6 @@ public class CatalogActivity extends AppCompatActivity {
 
     private void insertBooks() {
 
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
         ContentValues values = new ContentValues();
         values.put(BooksContract.BooksEntry.COLUMN_BOOKS_PRODUCT, "Walks with men");
         values.put(BooksContract.BooksEntry.COLUMN_BOOKS_PRICE, 10.00);
@@ -113,7 +107,7 @@ public class CatalogActivity extends AppCompatActivity {
         values.put(BooksContract.BooksEntry.COLUMN_BOOKS_SUPPLIER, "Amazon");
         values.put(BooksContract.BooksEntry.COLUMN_BOOKS_PHONE, 727213658);
 
-        long newRowId = db.insert(BooksContract.BooksEntry.TABLE_NAME, null, values);
+        Uri newUri = getContentResolver().insert(BooksContract.BooksEntry.CONTENT_URI, values);
     }
 
     @Override

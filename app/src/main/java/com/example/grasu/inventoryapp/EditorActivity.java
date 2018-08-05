@@ -2,6 +2,7 @@ package com.example.grasu.inventoryapp;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -54,9 +55,9 @@ public class EditorActivity extends AppCompatActivity {
 
         String supplierString = supplier.getText().toString().trim();
         String phoneString = supplierPhone.getText().toString().trim();
-        BooksDbHelper dbHelper = new BooksDbHelper(this);
 
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+
         ContentValues values = new ContentValues();
         values.put(BooksContract.BooksEntry.COLUMN_BOOKS_PRODUCT, productString);
         values.put(BooksContract.BooksEntry.COLUMN_BOOKS_PRICE, priceString);
@@ -64,11 +65,12 @@ public class EditorActivity extends AppCompatActivity {
         values.put(BooksContract.BooksEntry.COLUMN_BOOKS_SUPPLIER, supplierString);
         values.put(BooksContract.BooksEntry.COLUMN_BOOKS_PHONE, phoneString);
 
-        long newRowId = db.insert(BooksContract.BooksEntry.TABLE_NAME, null, values);
-        if (newRowId == -1) {
-            Toast.makeText(this, "Error with saving book", Toast.LENGTH_SHORT).show();
+        Uri newUri = getContentResolver().insert(BooksContract.BooksEntry.CONTENT_URI, values);
+
+        if (newUri == null) {
+            Toast.makeText(this, getString(R.string.editor_insert_book_failed), Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Book saved with row id: " + newRowId, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.editor_insert_book_successfull) , Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -20,4 +20,6 @@
     <string name="delete_all">Delete all entry</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
+    <string name="editor_insert_book_failed">Error with saving book</string>
+    <string name="editor_insert_book_successfull">Book saved with row id: </string>
 </resources>
