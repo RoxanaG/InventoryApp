@@ -182,7 +182,7 @@ if (currentBooksUri == null){
     }
     @Override
     public void onBackPressed() {
-        // If the pet hasn't changed, continue with handling back button press
+
         if (!booksChanged) {
             super.onBackPressed();
             return;
@@ -214,12 +214,12 @@ if (currentBooksUri == null){
                 BooksContract.BooksEntry.COLUMN_BOOKS_PHONE };
 
         // This loader will execute the ContentProvider's query method on a background thread
-        return new CursorLoader(this,   // Parent activity context
-                currentBooksUri,         // Query the content URI for the current pet
-                projection,             // Columns to include in the resulting Cursor
-                null,                   // No selection clause
-                null,                   // No selection arguments
-                null);                  // Default sort order
+        return new CursorLoader(this,
+                currentBooksUri,
+                projection,
+                null,
+                null,
+                null);
     }
 
 
@@ -266,8 +266,7 @@ if (currentBooksUri == null){
         builder.setPositiveButton(R.string.discard, discardButtonClickListener);
         builder.setNegativeButton(R.string.keep_editing, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // User clicked the "Keep editing" button, so dismiss the dialog
-                // and continue editing the pet.
+
                 if (dialog != null) {
                     dialog.dismiss();
                 }
@@ -281,7 +280,7 @@ if (currentBooksUri == null){
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        // If this is a new pet, hide the "Delete" menu item.
+
         if (currentBooksUri == null) {
             MenuItem menuItem = menu.findItem(R.id.delete);
             menuItem.setVisible(false);
@@ -296,14 +295,13 @@ if (currentBooksUri == null){
         builder.setMessage(R.string.delete_dialog_msg);
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // User clicked the "Delete" button, so delete the pet.
+
                 deleteBooks();
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // User clicked the "Cancel" button, so dismiss the dialog
-                // and continue editing the pet.
+
                 if (dialog != null) {
                     dialog.dismiss();
                 }
