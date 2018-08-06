@@ -47,7 +47,7 @@ BooksCursorAdapter cursorAdapter;
         });
         ListView booksListView = (ListView) findViewById(R.id.list);
 
-        // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
+
         View emptyView = findViewById(R.id.empty_view);
         booksListView.setEmptyView(emptyView);
 
@@ -106,7 +106,8 @@ startActivity(intent);
         String[] projection = {
                 BooksContract.BooksEntry._ID,
                 BooksContract.BooksEntry.COLUMN_BOOKS_PRODUCT,
-                BooksContract.BooksEntry.COLUMN_BOOKS_PRICE
+                BooksContract.BooksEntry.COLUMN_BOOKS_PRICE,
+                BooksContract.BooksEntry.COLUMN_BOOKS_QUANTITY
         };
         return new CursorLoader(this,
                 BooksContract.BooksEntry.CONTENT_URI,
@@ -132,7 +133,7 @@ cursorAdapter.swapCursor(null);
         builder.setMessage(R.string.delete_all_dialog_msg);
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-              
+
                 deleteAllBooks();
             }
         });

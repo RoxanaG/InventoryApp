@@ -66,11 +66,24 @@
             style="@style/TextViews"
             android:text="@string/quantity_text" />
 
+        <ImageView
+            android:id="@+id/minus"
+            android:layout_width="39dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/icon_minus" />
+
         <EditText
             android:id="@+id/quantity"
             style="@style/EditorFieldStyle"
+            android:layout_width="wrap_content"
             android:hint="@string/quantity_hint"
             android:inputType="textCapWords" />
+
+        <ImageView
+            android:id="@+id/plus"
+            android:layout_width="39dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/icon_plus" />
 
     </LinearLayout>
 

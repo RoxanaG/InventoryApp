@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.grasu.inventoryapp.data.BooksContract;
@@ -36,6 +37,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     private EditText supplier;
     private EditText supplierPhone;
     private boolean booksChanged = false;
+    private int givenQuantity;
 
     private View.OnTouchListener touchListener = new View.OnTouchListener() {
         @Override
@@ -71,11 +73,45 @@ if (currentBooksUri == null){
         supplier = findViewById(R.id.supplier_name);
         supplierPhone = findViewById(R.id.supplier_phone);
 
+        ImageView decreaseQuantity=findViewById(R.id.minus);
+        ImageView increaseQuantity = findViewById(R.id.plus);
+
        productName.setOnTouchListener(touchListener);
         price.setOnTouchListener(touchListener);
         quantity.setOnTouchListener(touchListener);
         supplier.setOnTouchListener(touchListener);
         supplierPhone.setOnTouchListener(touchListener);
+        decreaseQuantity.setOnTouchListener(touchListener);
+        increaseQuantity.setOnTouchListener(touchListener);
+
+        increaseQuantity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String textQuantity = quantity.getText().toString();
+
+                    givenQuantity = Integer.parseInt(textQuantity);
+                    quantity.setText(String.valueOf(givenQuantity + 1));
+                }
+
+
+        });
+        decreaseQuantity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String textQuantity = quantity.getText().toString();
+                    givenQuantity = Integer.parseInt(textQuantity);
+                    //To validate if quantity is greater than 0
+                    if ((givenQuantity - 1) >= 0) {
+                        quantity.setText(String.valueOf(givenQuantity - 1));
+                    } else {
+                        Toast.makeText(EditorActivity.this,R.string.quantity_no_less_then_0, Toast.LENGTH_SHORT).show();
+                        return;
+
+                    }
+                }
+
+        });
     }
 
 
@@ -147,10 +183,19 @@ if (currentBooksUri == null){
 
         switch (item.getItemId()) {
             case R.id.save:
+                if (productName.getText().toString().length() == 0 && price.getText().toString().length() == 0 && quantity.getText().toString().length() == 0 && supplierPhone.getText().toString().length() == 0) {
+                    Toast.makeText(this, getString(R.string.nothing_saved), Toast.LENGTH_LONG).show();
+                } else {
+            if (productName.getText().toString().length() == 0) {
+                Toast.makeText(this, getString(R.string.no_product_name), Toast.LENGTH_LONG).show();
+            }else {
+                if (price.getText().toString().length() == 0) {
+                    Toast.makeText(this, getString(R.string.no_price), Toast.LENGTH_LONG).show();
+                }else {
 
-                saveBooks();
-                finish();
-
+                    saveBooks();
+                    finish();
+                }}}
 
                 return true;
             case R.id.delete:

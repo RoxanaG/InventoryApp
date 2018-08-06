@@ -187,7 +187,7 @@ public class BooksProvider  extends ContentProvider {
             // Check that the weight is greater than or equal to 0 kg
             Integer quantity = values.getAsInteger(BooksContract.BooksEntry.COLUMN_BOOKS_QUANTITY);
                 if (quantity != null && quantity < 0) {
-                throw new IllegalArgumentException("Pet requires valid weight");
+                throw new IllegalArgumentException("Book requires valid weight");
             }
         }
         if (values.size() == 0) {
@@ -221,6 +221,7 @@ public class BooksProvider  extends ContentProvider {
                         selection = BooksContract.BooksEntry._ID + "=?";
                         selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
                         rowsDeleted = database.delete(BooksContract.BooksEntry.TABLE_NAME, selection, selectionArgs);
+                        break;
                     default:
                         throw new IllegalArgumentException("Deletion is not supported for " + uri);
                 }
