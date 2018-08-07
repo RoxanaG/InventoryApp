@@ -42,6 +42,6 @@
     <string name="no_books">This book is out of stock</string>
     <string name="quantity_no_less_then_0">Quantity can\'t be less than 0</string>
     <string name="call_supplier">Call supplier</string>
-    <string name="no_call">Sorry, no number</string>
+    <string name="no_call">Please insert phone number</string>
 
 </resources>
