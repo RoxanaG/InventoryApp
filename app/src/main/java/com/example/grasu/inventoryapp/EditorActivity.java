@@ -34,7 +34,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     private boolean booksChanged = false;
     private int givenQuantity;
 
-
     private View.OnTouchListener touchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -205,10 +204,11 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                                 if (supplierPhone.getText().toString().length() == 0) {
                                     Toast.makeText(this, getString(R.string.no_phone), Toast.LENGTH_LONG).show();
                                 } else {
-
-                            saveBooks();
-                            finish();
-                        }}}
+                                    saveBooks();
+                                    finish();
+                                }
+                            }
+                        }
                     }
                 }
 

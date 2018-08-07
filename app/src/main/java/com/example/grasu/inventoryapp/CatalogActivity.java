@@ -130,7 +130,6 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         builder.setMessage(R.string.delete_all_dialog_msg);
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-
                 deleteAllBooks();
             }
         });
