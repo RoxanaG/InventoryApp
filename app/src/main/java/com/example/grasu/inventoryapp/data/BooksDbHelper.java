@@ -20,8 +20,8 @@ public class BooksDbHelper extends SQLiteOpenHelper {
                 + BooksContract.BooksEntry.COLUMN_BOOKS_PRODUCT + " TEXT NOT NULL, "
                 + BooksContract.BooksEntry.COLUMN_BOOKS_PRICE + " DECIMAL NOT NULL DEFAULT 0, "
                 + BooksContract.BooksEntry.COLUMN_BOOKS_QUANTITY + " INTEGER NOT NULL, "
-                + BooksContract.BooksEntry.COLUMN_BOOKS_SUPPLIER + " TEXT, "
-                + BooksContract.BooksEntry.COLUMN_BOOKS_PHONE + " INTEGER );";
+                + BooksContract.BooksEntry.COLUMN_BOOKS_SUPPLIER + " TEXT NOT NULL, "
+                + BooksContract.BooksEntry.COLUMN_BOOKS_PHONE + " INTEGER NOT NULL );";
 
         db.execSQL(SQL_CREATE_BOOKS_TABLE);
     }

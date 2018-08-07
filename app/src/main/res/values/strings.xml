@@ -5,6 +5,7 @@
     <string name="no_price">Please input price</string>
     <string name="no_quantity">Please input quantity</string>
     <string name="no_phone">Please input supplier phone</string>
+    <string name="no_supplier">Please input supplier</string>
     <string name="product_hint">Product name</string>
     <string name="product_text">Product name</string>
     <string name="price_text">Price</string>
@@ -40,6 +41,7 @@
     <string name="quantityTextList">Quantity: </string>
     <string name="no_books">This book is out of stock</string>
     <string name="quantity_no_less_then_0">Quantity can\'t be less than 0</string>
-
+    <string name="call_supplier">Call supplier</string>
+    <string name="no_call">Sorry, no number</string>
 
 </resources>

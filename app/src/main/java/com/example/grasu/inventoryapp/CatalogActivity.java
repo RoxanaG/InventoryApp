@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -17,18 +16,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.grasu.inventoryapp.adapters.BooksCursorAdapter;
 import com.example.grasu.inventoryapp.data.BooksContract;
 
-
-public class CatalogActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
-private static final int BOOKS_LOADER = 0;
-BooksCursorAdapter cursorAdapter;
+public class CatalogActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+    private static final int BOOKS_LOADER = 0;
+    BooksCursorAdapter cursorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,24 +41,24 @@ BooksCursorAdapter cursorAdapter;
                 startActivity(intent);
             }
         });
-        ListView booksListView = (ListView) findViewById(R.id.list);
+        ListView booksListView = findViewById(R.id.list);
 
 
         View emptyView = findViewById(R.id.empty_view);
         booksListView.setEmptyView(emptyView);
 
-        cursorAdapter = new BooksCursorAdapter(this,null);
+        cursorAdapter = new BooksCursorAdapter(this, null);
         booksListView.setAdapter(cursorAdapter);
         booksListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-Intent intent = new Intent(CatalogActivity.this,EditorActivity.class);
-Uri currentBooksUri = ContentUris.withAppendedId(BooksContract.BooksEntry.CONTENT_URI,id);
-intent.setData(currentBooksUri);
-startActivity(intent);
+                Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
+                Uri currentBooksUri = ContentUris.withAppendedId(BooksContract.BooksEntry.CONTENT_URI, id);
+                intent.setData(currentBooksUri);
+                startActivity(intent);
             }
         });
-        getLoaderManager().initLoader(BOOKS_LOADER,null,this);
+        getLoaderManager().initLoader(BOOKS_LOADER, null, this);
     }
 
     private void insertBooks() {
@@ -76,6 +72,7 @@ startActivity(intent);
 
         Uri newUri = getContentResolver().insert(BooksContract.BooksEntry.CONTENT_URI, values);
     }
+
     private void deleteAllBooks() {
         int rowsDeleted = getContentResolver().delete(BooksContract.BooksEntry.CONTENT_URI, null, null);
 
@@ -119,16 +116,16 @@ startActivity(intent);
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-cursorAdapter.swapCursor(data);
+        cursorAdapter.swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-cursorAdapter.swapCursor(null);
+        cursorAdapter.swapCursor(null);
     }
+
     private void showDeleteConfirmationDialog() {
-        // Create an AlertDialog.Builder and set the message, and click listeners
-        // for the postivie and negative buttons on the dialog.
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.delete_all_dialog_msg);
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
@@ -145,12 +142,9 @@ cursorAdapter.swapCursor(null);
                 }
             }
         });
-
-        // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
-
 }
 
 

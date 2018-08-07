@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/activity_margin" />
+
     <RelativeLayout
         android:id="@+id/empty_view"
         android:layout_width="wrap_content"
@@ -46,7 +47,7 @@
             android:paddingTop="8dp"
             android:text="@string/empty_view_subtitle_text"
             android:textAppearance="?android:textAppearanceSmall"
-            android:textColor="#A2AAB0" />
+            android:textColor="@color/textColorSubtitle" />
     </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
@@ -58,5 +59,4 @@
         android:layout_alignParentRight="true"
         android:layout_margin="@dimen/add_book_margin"
         android:src="@drawable/book_ic" />
-
 </RelativeLayout>
